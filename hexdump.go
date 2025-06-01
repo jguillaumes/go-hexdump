@@ -2,6 +2,8 @@ package hexdump
 
 import (
 	"fmt"
+	"strings"
+	"unicode"
 
 	ebcdic "github.com/jguillaumes/go-ebcdic"
 )
@@ -37,7 +39,16 @@ func HexDump(data []byte, codepage int) string {
 			end = len(data)
 		}
 		block := data[i:end]
-		printable, _ := ebcdic.Decode(block, codepage)
+		converted, _ := ebcdic.Decode(block, codepage)
+		printable := strings.Map(func(r rune) rune {
+			if unicode.IsPrint(r) {
+				return r
+			} else {
+				return '.'
+			}
+		}, converted)
+		// Check every rune to see if it is printable
+
 		printableLines = append(printableLines, printable)
 	}
 
