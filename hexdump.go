@@ -8,6 +8,7 @@ import (
 
 func HexDump(data []byte) string {
 	const colheader = "....|....1....|....2....|....3....|....4....|....5....|....6...."
+	const fiveblanks = "     "
 
 	// Encode the byte slice into an uppercase hex string
 	hexString := make([]byte, len(data)*2)
@@ -59,9 +60,12 @@ func HexDump(data []byte) string {
 
 	// Build the final output string
 	var output string
-	output = colheader + "\n"
+	output = fiveblanks + colheader + "\n"
+	offset := 0
 	for i := 0; i < len(highNibbles); i++ {
-		output = fmt.Sprintf("%s\n%s\n%s\n%s\n", output, printableLines[i], highNibbles[i], lowNibbles[i])
+		output = fmt.Sprintf("%s\n%s%s\n%04x %s\n%s%s\n", output, fiveblanks,
+			printableLines[i], offset, highNibbles[i], fiveblanks, lowNibbles[i])
+		offset += 64
 	}
 	return output
 
