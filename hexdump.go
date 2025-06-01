@@ -6,7 +6,7 @@ import (
 	ebcdic "github.com/jguillaumes/go-ebcdic"
 )
 
-func HexDump(data []byte) string {
+func HexDump(data []byte, codepage int) string {
 	const colheader = "....|....1....|....2....|....3....|....4....|....5....|....6...."
 	const fiveblanks = "     "
 
@@ -37,7 +37,7 @@ func HexDump(data []byte) string {
 			end = len(data)
 		}
 		block := data[i:end]
-		printable, _ := ebcdic.Decode(block, ebcdic.EBCDIC037)
+		printable, _ := ebcdic.Decode(block, codepage)
 		printableLines = append(printableLines, printable)
 	}
 
