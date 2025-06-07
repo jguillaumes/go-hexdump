@@ -5,12 +5,14 @@ import (
 	"strings"
 	"unicode"
 
-	ebcdic "github.com/jguillaumes/go-ebcdic"
+	e "github.com/jguillaumes/go-encoding/encodings"
 )
 
-func HexDump(data []byte, codepage int) string {
+func HexDump(data []byte, codepage string) string {
 	const colheader = "....|....1....|....2....|....3....|....4....|....5....|....6...."
 	const fiveblanks = "     "
+
+	enc := e.NewEncoding()
 
 	// Encode the byte slice into an uppercase hex string
 	hexString := make([]byte, len(data)*2)
@@ -39,7 +41,7 @@ func HexDump(data []byte, codepage int) string {
 			end = len(data)
 		}
 		block := data[i:end]
-		converted, _ := ebcdic.Decode(block, codepage)
+		converted, _ := enc.DecodeBytes(block, codepage)
 		printable := strings.Map(func(r rune) rune {
 			if unicode.IsPrint(r) {
 				return r

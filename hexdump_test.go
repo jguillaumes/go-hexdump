@@ -3,8 +3,10 @@ package hexdump
 import (
 	"testing"
 
-	ebcdic "github.com/jguillaumes/go-ebcdic"
+	e "github.com/jguillaumes/go-encoding/encodings"
 )
+
+var enc = e.NewEncoding()
 
 func Test_hexdump(t *testing.T) {
 
@@ -31,18 +33,18 @@ func Test_hexdump(t *testing.T) {
 `
 
 	var data = "Hello, World! This is a test of the hexdump function. 1234567890 ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz"
-	var data_ebcdic, _ = ebcdic.Encode(data, ebcdic.EBCDIC037)
+	var data_ebcdic, _ = enc.EncodeString(data, "IBM-037")
 
-	result := HexDump(data_ebcdic, ebcdic.EBCDIC037)
+	result := HexDump(data_ebcdic, "IBM-037")
 	println(result)
 	if result != exp1 {
 		t.Errorf("HexDump() = %v, want %v", result, exp1)
 	}
 
 	data = "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
-	data_ebcdic, _ = ebcdic.Encode(data, ebcdic.EBCDIC037)
+	data_ebcdic, _ = enc.EncodeString(data, "IBM-037")
 
-	result = HexDump(data_ebcdic, ebcdic.EBCDIC037)
+	result = HexDump(data_ebcdic, "IBM-037")
 	println(result)
 	if result != exp2 {
 		t.Errorf("HexDump() = %v, want %v", result, exp2)
@@ -52,8 +54,8 @@ func Test_hexdump(t *testing.T) {
 
 func Test_cp1047(t *testing.T) {
 	var data = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 1234567890"
-	var data_ebcdic, _ = ebcdic.Encode(data, ebcdic.EBCDIC1047)
+	var data_ebcdic, _ = enc.EncodeString(data, "IBM-1047")
 
-	result := HexDump(data_ebcdic, ebcdic.EBCDIC1047)
+	result := HexDump(data_ebcdic, "IBM-037")
 	println(result)
 }
