@@ -1,3 +1,5 @@
+// hexdump provides a function to generate hexadecimal dumps in mainframe
+// style, applying a codepage conversion to show the plain text.
 package hexdump
 
 import (
@@ -8,6 +10,8 @@ import (
 	e "github.com/jguillaumes/go-encoding/encodings"
 )
 
+// HexDump generates an hexadecimal dump in "mainframe style", applying a given
+// emcoding using [github.com/jguillaumes/go-encoding/encodings].
 func HexDump(data []byte, codepage string) string {
 	const colheader = "....|....1....|....2....|....3....|....4....|....5....|....6...."
 	const fiveblanks = "     "
