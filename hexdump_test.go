@@ -59,3 +59,11 @@ func Test_cp1047(t *testing.T) {
 	result := HexDump(data_ebcdic, "IBM-037")
 	println(result)
 }
+
+func Test_hexdump_ascii(T *testing.T) {
+	var data = "ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 1234567890"
+	var data_ascii, _ = enc.EncodeString(data, "ISO8859-1")
+
+	result := HexDump(data_ascii, "ISO8859-1")
+	println(result)
+}
